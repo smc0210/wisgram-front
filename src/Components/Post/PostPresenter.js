@@ -44,7 +44,7 @@ const File = styled.div`
   height: 600px;
   position: absolute;
   top: 0;
-  background-image: url(${props => props.src}});
+  background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
   opacity: ${props => (props.showing ? 1 : 0)};
@@ -111,7 +111,8 @@ export default ({
   currentItem,
   toggleLike,
   onKeyPress,
-  comments
+  comments,
+  selfComments
 }) => (
   <Post>
     <Header>
@@ -145,14 +146,20 @@ export default ({
               {comment.text}
             </Comment>
           ))}
+          {selfComments.map(comment => (
+            <Comment key={comment.id}>
+              <FatText text={comment.user.username} />
+              {comment.text}
+            </Comment>
+          ))}
         </Comments>
       )}
       <Timestamp>{createdAt}</Timestamp>
       <Textarea
+        onKeyPress={onKeyPress}
         placeholder={"Add a comment..."}
         value={newComment.value}
         onChange={newComment.onChange}
-        onKeyUp={onKeyPress}
       />
     </Meta>
   </Post>
