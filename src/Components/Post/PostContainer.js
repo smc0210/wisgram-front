@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import useInput from "../../Hooks/useInput";
 import PostPresenter from "./PostPresenter";
+import { useMutation } from "react-apollo-hooks";
+import { TOGGLE_LIKE, ADD_COMMENT } from "./PostQueries";
 
 const PostContainer = ({
   id,
@@ -18,6 +20,12 @@ const PostContainer = ({
   const [likeCountS, setLikeCount] = useState(likeCount);
   const [currentItem, setCurrentItem] = useState(0);
   const comment = useInput("");
+  const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
+    variables: { postId: id }
+  });
+  const [addCommentMutation] = useMutation(ADD_COMMENT, {
+    variables: { postId: id, text: comment.value }
+  });
   useEffect(() => {
     const totalFiles = files.length;
     if (currentItem === totalFiles - 1) {
@@ -26,6 +34,26 @@ const PostContainer = ({
       setTimeout(() => setCurrentItem(currentItem + 1), 3000);
     }
   }, [currentItem, files]);
+
+  const toggleLike = () => {
+    toggleLikeMutation();
+    if (isLikedS === true) {
+      setIsLiked(false);
+      setLikeCount(likeCountS - 1);
+    } else {
+      setIsLiked(true);
+      setLikeCount(likeCountS + 1);
+    }
+  };
+
+  const onKeyPress = e => {
+    const { keyCode } = e;
+    if (keyCode === 13) {
+      comment.setValue("");
+      // addCommentMutation();
+    }
+    return;
+  };
 
   return (
     <PostPresenter
@@ -41,6 +69,8 @@ const PostContainer = ({
       setIsLiked={setIsLiked}
       setLikeCount={setLikeCount}
       currentItem={currentItem}
+      toggleLike={toggleLike}
+      onKeyPress={onKeyPress}
     />
   );
 };
