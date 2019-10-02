@@ -62,7 +62,7 @@ export default ({
       {action === "logIn" && (
         <>
           <Helmet>
-            <title>Log In | Prismagram</title>
+            <title>Log In | Wisgram</title>
           </Helmet>
           <form onSubmit={onSubmit}>
             <Input placeholder={"Email"} {...email} type="email" />
@@ -73,7 +73,7 @@ export default ({
       {action === "signUp" && (
         <>
           <Helmet>
-            <title>Sign Up | Prismagram</title>
+            <title>Sign Up | Wisgram</title>
           </Helmet>
           <form onSubmit={onSubmit}>
             <Input placeholder={"First name"} {...firstName} />
@@ -87,7 +87,7 @@ export default ({
       {action === "confirm" && (
         <>
           <Helmet>
-            <title>Confirm Secret | Prismagram</title>
+            <title>Confirm Secret | Wisgram</title>
           </Helmet>
           <form onSubmit={onSubmit}>
             <Input placeholder="Paste your secret" required {...secret} />
